@@ -1,0 +1,12 @@
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Repository\bin\Debug\Repository.dll.config
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Repository\bin\Debug\Repository.dll
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Repository\bin\Debug\Repository.pdb
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Repository\bin\Debug\EntityFramework.dll
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Repository\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Repository\bin\Debug\EntityFramework.xml
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Repository\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Repository\obj\Debug\Repository.csproj.CoreCompileInputs.cache
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Repository\obj\Debug\Repository.csproj.CopyComplete
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Repository\obj\Debug\Repository.dll
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Repository\obj\Debug\Repository.pdb
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Repository\obj\Debug\Repository.csprojAssemblyReference.cache
