@@ -46,19 +46,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Manager\BookManager\BookCreator.cs" />
+    <Compile Include="Manager\BookManager\BookDeleter.cs" />
+    <Compile Include="Manager\BookManager\BookDTO.cs" />
+    <Compile Include="Manager\BookManager\BookQuery.cs" />
+    <Compile Include="Manager\BookManager\BookUpdater.cs" />
     <Compile Include="Manager\PersonManager\PersonCreator.cs" />
     <Compile Include="Manager\PersonManager\PersonDeleter.cs" />
     <Compile Include="Manager\PersonManager\PersonDTO.cs" />
     <Compile Include="Manager\PersonManager\PersonQuery.cs" />
     <Compile Include="Manager\PersonManager\PersonUpdater.cs" />
+    <Compile Include="Manager\UserManager\UserCreator.cs" />
+    <Compile Include="Manager\UserManager\UserDeleter.cs" />
+    <Compile Include="Manager\UserManager\UserDTO.cs" />
+    <Compile Include="Manager\UserManager\UserQuery.cs" />
+    <Compile Include="Manager\UserManager\UserUpdater.cs" />
+    <Compile Include="Model\Pagination.cs" />
     <Compile Include="Model\Permission.cs" />
     <Compile Include="Model\ServiceResponse.cs" />
     <Compile Include="Model\Status.cs" />
+    <Compile Include="Model\TableFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AppServiceBase.cs" />
+    <Compile Include="Services\BookService.cs" />
+    <Compile Include="Services\LoginService.cs" />
     <Compile Include="Services\MethodEntry.cs" />
     <Compile Include="Services\PersonService.cs" />
     <Compile Include="Services\ServiceEntry.cs" />
+    <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

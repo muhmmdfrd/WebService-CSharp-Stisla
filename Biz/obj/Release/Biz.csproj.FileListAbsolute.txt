@@ -1,0 +1,14 @@
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Release\Biz.dll
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Release\Biz.pdb
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Release\EntityFramework.dll
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Release\Newtonsoft.Json.dll
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Release\Repository.dll
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Release\Repository.pdb
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Release\Repository.dll.config
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Release\EntityFramework.xml
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Release\Newtonsoft.Json.xml
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\obj\Release\Biz.csprojAssemblyReference.cache
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\obj\Release\Biz.csproj.CoreCompileInputs.cache
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\obj\Release\Biz.csproj.CopyComplete
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\obj\Release\Biz.dll
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\obj\Release\Biz.pdb

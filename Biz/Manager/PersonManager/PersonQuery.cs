@@ -7,7 +7,7 @@ namespace Biz.Manager.PersonManager
 {
 	public class PersonQuery : IDisposable
 	{
-		SimpleCrudEntities db;
+		private readonly SimpleCrudEntities db;
 
 		public PersonQuery(SimpleCrudEntities db)
 		{
@@ -38,6 +38,11 @@ namespace Biz.Manager.PersonManager
 				throw new Exception("data not found");
 
 			return query;
+		}
+
+		public List<PersonDTO> GetByKeyword(string keyword)
+		{
+			return GetQuery().Where(x => x.Name.Contains(keyword)).ToList();
 		}
 
 		public void Dispose()

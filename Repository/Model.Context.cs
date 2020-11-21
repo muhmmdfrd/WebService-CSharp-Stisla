@@ -27,5 +27,6 @@ namespace Repository
     
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Person> People { get; set; }
+        public virtual DbSet<Book> Books { get; set; }
     }
 }

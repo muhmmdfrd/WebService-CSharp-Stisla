@@ -6,7 +6,7 @@ namespace Biz.Manager.PersonManager
 {
 	public class PersonCreator : IDisposable
 	{
-		private SimpleCrudEntities db = new SimpleCrudEntities();
+		private readonly SimpleCrudEntities db = new SimpleCrudEntities();
 
 		public PersonCreator(SimpleCrudEntities db)
 		{

@@ -57,3 +57,12 @@ C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\WebServiceFirst\obj\Release\Web
 C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\WebServiceFirst\obj\Release\WebServiceFirst.csproj.CopyComplete
 C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\WebServiceFirst\obj\Release\WebServiceFirst.dll
 C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\WebServiceFirst\obj\Release\WebServiceFirst.pdb
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\WebServiceFirst\bin\Biz.dll
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\WebServiceFirst\bin\Newtonsoft.Json.dll
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\WebServiceFirst\bin\Repository.dll
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\WebServiceFirst\bin\EntityFramework.dll
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\WebServiceFirst\bin\Biz.pdb
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\WebServiceFirst\bin\Repository.pdb
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\WebServiceFirst\bin\Repository.dll.config
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\WebServiceFirst\bin\Newtonsoft.Json.xml
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\WebServiceFirst\bin\EntityFramework.xml

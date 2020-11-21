@@ -1,10 +1,8 @@
 ﻿using Biz.Manager.PersonManager;
 using Biz.Model;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Repository;
 using System;
-using System.Collections.Generic;
 
 namespace Biz.Services
 {
@@ -33,13 +31,13 @@ namespace Biz.Services
 			
 		}
 
-		public object GetPersonById(long id)
+		public object GetPersonById()
 		{
 			try
 			{
 				using (var query = new PersonQuery(db))
 				{
-					return ServiceResponse.Success(query.GetById(id));
+					return ServiceResponse.Success(query.GetById(Convert.ToInt32(Json["Id"])));
 				}
 			}
 			catch (Exception ex)
@@ -48,13 +46,29 @@ namespace Biz.Services
 			}
 		}
 
-		public object CreatePerson(Person data)
+
+		public object GetPersonByKeyword()
+		{
+			try
+			{
+				using (var query = new PersonQuery(db))
+				{
+					return ServiceResponse.Success(query.GetByKeyword(Json["Keyword"].ToString()));
+				}
+			}
+			catch (Exception ex)
+			{
+				return ServiceResponse.Fail(ex.Message);
+			}
+		}
+
+		public object CreatePerson()
 		{
 			try
 			{
 				using (var creator = new PersonCreator(db))
 				{
-					var result = creator.Save(data);
+					var result = creator.Save(Json.ToObject<Person>());
 					using (var query = new PersonQuery(db))
 					{
 						return ServiceResponse.Success(query.GetById(result.Id));
@@ -68,13 +82,13 @@ namespace Biz.Services
 			}
 		}
 
-		public object UpdatePerson(Person data)
+		public object UpdatePerson()
 		{
 			try
 			{
 				using (var update = new PersonUpdater(db))
 				{
-					var result = update.Update(data);
+					var result = update.Update(Json.ToObject<Person>());
 					using (var query = new PersonQuery(db))
 					{
 						return ServiceResponse.Success(query.GetById(result.Id));
@@ -87,13 +101,13 @@ namespace Biz.Services
 			}
 		}
 
-		public object DeletePerson(long id)
+		public object DeletePerson()
 		{
 			try
 			{
 				using (var deleter = new PersonDeleter(db))
 				{
-					deleter.Delete(id);
+					deleter.Delete(Convert.ToInt32(Json["Id"]));
 					return ServiceResponse.Success("Data Deleted");
 				}
 			}
