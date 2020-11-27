@@ -1,4 +1,5 @@
-﻿using Repository;
+﻿using Biz.Extension.NullCheckerExtension;
+using Repository;
 using System;
 using System.Linq;
 using System.Transactions;
@@ -20,7 +21,7 @@ namespace Biz.Manager.PersonManager
 			{
 				var exist = db.People.FirstOrDefault(x => x.Id == data.Id);
 
-				if (exist == null)
+				if (exist.IsNull())
 					throw new Exception("data not found");
 
 				exist.DateOfBirth = data.DateOfBirth;
@@ -36,6 +37,7 @@ namespace Biz.Manager.PersonManager
 
 		public void Dispose()
 		{
+			db.Dispose();
 		}
 	}
 }

@@ -84,11 +84,6 @@
 			return new BookService(Json).GetBookById();
 		}
 
-		public object BookGetByKeyword()
-		{
-			return new BookService(Json).GetBookByKeyword();
-		}
-
 		public object BookCreate()
 		{
 			return new BookService(Json).CreateBook();

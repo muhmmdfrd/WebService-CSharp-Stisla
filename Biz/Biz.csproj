@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extension\IntExtension\IntExtension.cs" />
+    <Compile Include="Extension\NullCheckerExtension\NullCheckerExtension.cs" />
+    <Compile Include="Extension\StringExtension\StringExtension.cs" />
     <Compile Include="Manager\BookManager\BookCreator.cs" />
     <Compile Include="Manager\BookManager\BookDeleter.cs" />
     <Compile Include="Manager\BookManager\BookDTO.cs" />

@@ -1,4 +1,5 @@
-﻿using Repository;
+﻿using Biz.Extension.NullCheckerExtension;
+using Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace Biz.Manager.PersonManager
 		{
 			var query = GetQuery().FirstOrDefault(x => x.Id == id);
 
-			if (query == null)
+			if (query.IsNull())
 				throw new Exception("data not found");
 
 			return query;

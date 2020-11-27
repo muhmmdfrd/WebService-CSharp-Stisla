@@ -1,4 +1,5 @@
-﻿using Biz.Manager.PersonManager;
+﻿using Biz.Extension.IntExtension;
+using Biz.Manager.PersonManager;
 using Biz.Model;
 using Newtonsoft.Json.Linq;
 using Repository;
@@ -37,7 +38,7 @@ namespace Biz.Services
 			{
 				using (var query = new PersonQuery(db))
 				{
-					return ServiceResponse.Success(query.GetById(Convert.ToInt32(Json["Id"])));
+					return ServiceResponse.Success(query.GetById(Json["Id"].ToLong()));
 				}
 			}
 			catch (Exception ex)
@@ -107,7 +108,7 @@ namespace Biz.Services
 			{
 				using (var deleter = new PersonDeleter(db))
 				{
-					deleter.Delete(Convert.ToInt32(Json["Id"]));
+					deleter.Delete(Json["Id"].ToLong());
 					return ServiceResponse.Success("Data Deleted");
 				}
 			}

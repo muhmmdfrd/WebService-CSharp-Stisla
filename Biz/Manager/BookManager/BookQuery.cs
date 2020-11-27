@@ -8,7 +8,7 @@ namespace Biz.Manager.BookManager
 {
 	public class BookFilter : TableFilter
 	{
-
+		// editable filter
 	}
 
 	public class BookQuery : IDisposable
@@ -70,11 +70,6 @@ namespace Biz.Manager.BookManager
 		public BookDTO GetById(long id)
 		{
 			return GetQuery().FirstOrDefault(x => x.Id == id);
-		}
-
-		public List<BookDTO> GetByKeyword(string keyword)
-		{
-			return GetQuery().Where(x => x.Author.Contains(keyword) || x.Title.Contains(keyword)).ToList();
 		}
 
 		public void Dispose()

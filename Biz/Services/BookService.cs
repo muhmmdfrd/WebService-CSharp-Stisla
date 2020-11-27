@@ -1,4 +1,5 @@
-﻿using Biz.Manager.BookManager;
+﻿using Biz.Extension.IntExtension;
+using Biz.Manager.BookManager;
 using Biz.Model;
 using Newtonsoft.Json.Linq;
 using Repository;
@@ -36,22 +37,7 @@ namespace Biz.Services
 			{
 				using (var query = new BookQuery(db))
 				{
-					return ServiceResponse.Success("data found", query.GetById(Convert.ToInt64(Json["Id"])));
-				}
-			}
-			catch (Exception ex)
-			{
-				return ServiceResponse.Fail(ex.Message);
-			}
-		}
-
-		public object GetBookByKeyword()
-		{
-			try
-			{
-				using (var query = new BookQuery(db))
-				{
-					return ServiceResponse.Success("data found", query.GetByKeyword(Json["Keyword"].ToString()));
+					return ServiceResponse.Success("data found", query.GetById(Json["id"].ToLong()));
 				}
 			}
 			catch (Exception ex)
@@ -98,7 +84,7 @@ namespace Biz.Services
 			{
 				using (var deleter = new BookDeleter(db))
 				{
-					deleter.Delete(Convert.ToInt64(Json["Id"]));
+					deleter.Delete(Json["Id"].ToLong());
 					return ServiceResponse.Success("data deleted");
 				}
 			}

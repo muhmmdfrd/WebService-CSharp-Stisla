@@ -1,4 +1,5 @@
-﻿using Repository;
+﻿using Biz.Extension.NullCheckerExtension;
+using Repository;
 using System;
 using System.Linq;
 using System.Transactions;
@@ -20,7 +21,7 @@ namespace Biz.Manager.PersonManager
 			{
 				var exist = db.People.FirstOrDefault(x => x.Id == id);
 
-				if (exist == null)
+				if (exist.IsNull())
 					throw new Exception("data not found");
 
 				db.People.Remove(exist);
