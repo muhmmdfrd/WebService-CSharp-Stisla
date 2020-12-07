@@ -36,7 +36,7 @@
         {
             get
             {
-                return pageSize == 0 ? 10 : pageSize;
+                return pageSize == 0 ? 5 : pageSize;
             }
             set
             {

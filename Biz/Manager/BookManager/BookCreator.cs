@@ -6,7 +6,7 @@ namespace Biz.Manager.BookManager
 {
 	public class BookCreator : IDisposable
 	{
-		private readonly SimpleCrudEntities db = new SimpleCrudEntities();
+		private readonly SimpleCrudEntities db;
 
 		public BookCreator(SimpleCrudEntities db)
 		{

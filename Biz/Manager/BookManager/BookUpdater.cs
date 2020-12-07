@@ -1,13 +1,13 @@
-﻿using Repository;
+﻿using Biz.Extension.NullCheckerExtension;
+using Repository;
 using System;
-using System.Linq;
 using System.Transactions;
 
 namespace Biz.Manager.BookManager
 {
 	internal class BookUpdater : IDisposable
 	{
-		private readonly SimpleCrudEntities db = new SimpleCrudEntities();
+		private readonly SimpleCrudEntities db;
 
 		public BookUpdater(SimpleCrudEntities db)
 		{
@@ -18,10 +18,9 @@ namespace Biz.Manager.BookManager
 		{
 			using (var transac = new TransactionScope())
 			{
-				var exist = db.Books.FirstOrDefault(x => x.Id == data.Id);
+				var exist = db.Books.Find(data.Id);
 
-				if (exist == null)
-					throw new Exception("data not found");
+				if (exist.IsNull()) throw new Exception("data not found");
 
 				exist.Author = data.Author;
 				exist.Path = data.Path;

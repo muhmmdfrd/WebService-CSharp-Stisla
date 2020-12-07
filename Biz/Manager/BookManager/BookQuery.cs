@@ -1,14 +1,13 @@
 ﻿using Biz.Model;
 using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Biz.Manager.BookManager
 {
 	public class BookFilter : TableFilter
 	{
-		// editable filter
+		public long Id { get; set; }
 	}
 
 	public class BookQuery : IDisposable
@@ -22,23 +21,17 @@ namespace Biz.Manager.BookManager
 
 		public IQueryable<BookDTO> GetQuery()
 		{
-			return db.Books
-				.Select(x => new BookDTO()
-				{
-					Id = x.Id,
-					Title = x.Title,
-					Author = x.Author,
-					Path = x.Path,
-					Qty = x.Qty
-				});
+			return db.Books.Select(x => new BookDTO()
+			{
+				Id = x.Id,
+				Title = x.Title,
+				Author = x.Author,
+				Path = x.Path,
+				Qty = x.Qty
+			});
 		}
 
-		public List<BookDTO> GetAll()
-		{
-			return GetQuery().ToList();
-		}
-
-		public Pagination<BookDTO> GetBook(BookFilter filter)
+		public Pagination<BookDTO> Get(BookFilter filter)
 		{
 			var dto = GetQuery();
 			int totalRecord = dto.Count();
@@ -48,6 +41,14 @@ namespace Biz.Manager.BookManager
 			{
 				dto = dto.Where(x => x.Author.Contains(filter.Keyword.ToLower()) || x.Title.Contains(filter.Keyword.ToLower()));
 				totalFilterred = dto.Count();
+			}
+
+			if (filter.Id > 0)
+			{
+				dto = dto.Where(x => x.Id == filter.Id);
+				totalFilterred = dto.Count();
+
+				if (totalFilterred == 0) throw new Exception("data not found");
 			}
 
 			dto = dto
@@ -65,11 +66,6 @@ namespace Biz.Manager.BookManager
 				PageSize = filter.PageSize,
 				Data = dto.ToList()
 			};
-		}
-
-		public BookDTO GetById(long id)
-		{
-			return GetQuery().FirstOrDefault(x => x.Id == id);
 		}
 
 		public void Dispose()

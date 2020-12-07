@@ -8,16 +8,6 @@
 			return new PersonService(Json).GetPerson();
 		}
 
-		public object PersonGetById()
-		{
-			return new PersonService(Json).GetPersonById();
-		}
-
-		public object PersonGetByKeyword()
-		{
-			return new PersonService(Json).GetPersonByKeyword();
-		}
-
 		public object PersonCreate()
 		{
 			return new PersonService(Json).CreatePerson();
@@ -38,16 +28,6 @@
 		public object UserGetAll()
 		{
 			return new UserService(Json).GetUser();
-		}
-
-		public object UserGetById()
-		{
-			return new UserService(Json).GetUserById();
-		}
-
-		public object UserGetByKeyword()
-		{
-			return new UserService(Json).GetUserByKeyword();
 		}
 
 		public object UserCreate()
@@ -77,11 +57,6 @@
 		public object BookGetAll()
 		{
 			return new BookService(Json).GetBook();
-		}
-
-		public object BookGetById()
-		{
-			return new BookService(Json).GetBookById();
 		}
 
 		public object BookCreate()

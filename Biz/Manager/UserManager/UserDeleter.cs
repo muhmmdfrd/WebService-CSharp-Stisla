@@ -1,13 +1,12 @@
 ﻿using Repository;
 using System;
-using System.Linq;
 using System.Transactions;
 
 namespace Biz.Manager.UserManager
 {
 	public class UserDeleter : IDisposable
 	{
-		private readonly SimpleCrudEntities db = new SimpleCrudEntities();
+		private readonly SimpleCrudEntities db;
 
 		public UserDeleter(SimpleCrudEntities db)
 		{
@@ -18,10 +17,9 @@ namespace Biz.Manager.UserManager
 		{
 			using (var transac = new TransactionScope())
 			{
-				var exist = db.Users.FirstOrDefault(x => x.Id == id);
+				var exist = db.Users.Find(id);
 
-				if (exist == null)
-					throw new Exception("data not found");
+				if (exist == null) throw new Exception("data not found");
 
 				db.Users.Remove(exist);
 				db.SaveChanges();

@@ -1,4 +1,5 @@
-﻿using Biz.Model;
+﻿using Biz.Extension.NullCheckerExtension;
+using Biz.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -16,25 +17,18 @@ namespace Biz.Services
         [JsonProperty("method")]
         private string Method = "";
 
-        public void Dispose()
-        {
-            Json = null;
-            Token = null;
-            Method = null;
-        }
-
         public Status<object> Execute(JObject param)
         {
             Json = param;
-            if (param["token"] == null)
+            if (param["token"].IsNull())
                 throw new Exception("Empty token is not allowed.");
 
             Token = Convert.ToString(param["token"]);
 
-            if (param["method"] == null)
+            if (param["method"].IsNull())
                 throw new Exception("Specify method name.");
 
-            Method = Convert.ToString(param["method"]);
+            Method = (param["method"]).ToString();
 
             Status<object> retval = new Status<object>();
             dynamic response = GetType().GetMethod(Method).Invoke(this, null);
@@ -53,6 +47,13 @@ namespace Biz.Services
             }
 
             return retval;
+        }
+
+        public void Dispose()
+        {
+            Json = null;
+            Token = null;
+            Method = null;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Repository;
+﻿using Biz.Extension.StringExtension;
+using Repository;
 using System;
 using System.Transactions;
 
@@ -6,7 +7,7 @@ namespace Biz.Manager.UserManager
 {
 	public class UserCreator : IDisposable
 	{
-		private readonly SimpleCrudEntities db = new SimpleCrudEntities();
+		private readonly SimpleCrudEntities db;
 
 		public UserCreator(SimpleCrudEntities db)
 		{
@@ -17,6 +18,11 @@ namespace Biz.Manager.UserManager
 		{
 			using (var transac = new TransactionScope())
 			{
+				if (string.IsNullOrEmpty(data.Password))
+					data.Password = Guid.NewGuid().ToString();
+
+				data.Password = data.Password.Encrypt();
+
 				var result = db.Users.Add(data);
 				db.SaveChanges();
 
@@ -28,7 +34,7 @@ namespace Biz.Manager.UserManager
 
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			db.Dispose();
 		}
 	}
 }

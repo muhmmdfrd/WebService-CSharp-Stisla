@@ -1,4 +1,5 @@
-﻿using Biz.Manager.UserManager;
+﻿using Biz.Extension.IntExtension;
+using Biz.Manager.UserManager;
 using Biz.Model;
 using Newtonsoft.Json.Linq;
 using Repository;
@@ -21,7 +22,9 @@ namespace Biz.Services
 			{
 				using (var query = new UserQuery(db))
 				{
-					return ServiceResponse.Success(query.GetAll());
+					var data = Json.ToObject<UserFilter>();
+
+					return ServiceResponse.Success(query.Get(data));
 				}
 			}
 			catch (Exception ex)
@@ -29,37 +32,6 @@ namespace Biz.Services
 				return ServiceResponse.Fail(ex.Message);
 			}
 
-		}
-
-		public object GetUserById()
-		{
-			try
-			{
-				using (var query = new UserQuery(db))
-				{
-					return ServiceResponse.Success(query.GetById(Convert.ToInt32(Json["Id"])));
-				}
-			}
-			catch (Exception ex)
-			{
-				return ServiceResponse.Fail(ex.Message);
-			}
-		}
-
-
-		public object GetUserByKeyword()
-		{
-			try
-			{
-				using (var query = new UserQuery(db))
-				{
-					return ServiceResponse.Success(query.GetByKeyword(Json["Keyword"].ToString()));
-				}
-			}
-			catch (Exception ex)
-			{
-				return ServiceResponse.Fail(ex.Message);
-			}
 		}
 
 		public object CreateUser()
@@ -69,11 +41,8 @@ namespace Biz.Services
 				using (var creator = new UserCreator(db))
 				{
 					var result = creator.Save(Json.ToObject<User>());
-					using (var query = new UserQuery(db))
-					{
-						return ServiceResponse.Success(query.GetById(result.Id));
-					}
 
+					return ServiceResponse.Success(result);
 				}
 			}
 			catch (Exception ex)
@@ -89,10 +58,9 @@ namespace Biz.Services
 				using (var update = new UserUpdater(db))
 				{
 					var result = update.Update(Json.ToObject<User>());
-					using (var query = new UserQuery(db))
-					{
-						return ServiceResponse.Success(query.GetById(result.Id));
-					}
+					
+					return ServiceResponse.Success(result);
+					
 				}
 			}
 			catch (Exception ex)
@@ -107,8 +75,9 @@ namespace Biz.Services
 			{
 				using (var deleter = new UserDeleter(db))
 				{
-					deleter.Delete(Convert.ToInt32(Json["Id"]));
-					return ServiceResponse.Success("Data Deleted");
+					deleter.Delete(Json["Id"].ToLong());
+
+					return ServiceResponse.Success("data deleted");
 				}
 			}
 			catch (Exception ex)

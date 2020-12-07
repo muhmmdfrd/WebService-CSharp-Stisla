@@ -22,39 +22,9 @@ namespace Biz.Services
 			{
 				using (var query = new PersonQuery(db))
 				{
-					return ServiceResponse.Success(query.GetAll());
-				}
-			}
-			catch (Exception ex)
-			{
-				return ServiceResponse.Fail(ex.Message);
-			}
-			
-		}
+					var data = Json.ToObject<PersonFilter>();
 
-		public object GetPersonById()
-		{
-			try
-			{
-				using (var query = new PersonQuery(db))
-				{
-					return ServiceResponse.Success(query.GetById(Json["Id"].ToLong()));
-				}
-			}
-			catch (Exception ex)
-			{
-				return ServiceResponse.Fail(ex.Message);
-			}
-		}
-
-
-		public object GetPersonByKeyword()
-		{
-			try
-			{
-				using (var query = new PersonQuery(db))
-				{
-					return ServiceResponse.Success(query.GetByKeyword(Json["Keyword"].ToString()));
+					return ServiceResponse.Success(query.Get(data));
 				}
 			}
 			catch (Exception ex)
@@ -70,10 +40,9 @@ namespace Biz.Services
 				using (var creator = new PersonCreator(db))
 				{
 					var result = creator.Save(Json.ToObject<Person>());
-					using (var query = new PersonQuery(db))
-					{
-						return ServiceResponse.Success(query.GetById(result.Id));
-					}
+					
+					return ServiceResponse.Success(result);
+					
 					
 				}
 			}
@@ -90,10 +59,9 @@ namespace Biz.Services
 				using (var update = new PersonUpdater(db))
 				{
 					var result = update.Update(Json.ToObject<Person>());
-					using (var query = new PersonQuery(db))
-					{
-						return ServiceResponse.Success(query.GetById(result.Id));
-					}
+					
+					return ServiceResponse.Success(result);
+					
 				}
 			}
 			catch (Exception ex)
@@ -109,7 +77,8 @@ namespace Biz.Services
 				using (var deleter = new PersonDeleter(db))
 				{
 					deleter.Delete(Json["Id"].ToLong());
-					return ServiceResponse.Success("Data Deleted");
+
+					return ServiceResponse.Success("data deleted");
 				}
 			}
 			catch (Exception ex)
@@ -117,7 +86,5 @@ namespace Biz.Services
 				return ServiceResponse.Fail(ex.Message);
 			}
 		}
-
-
 	}
 }

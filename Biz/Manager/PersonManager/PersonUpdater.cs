@@ -1,14 +1,13 @@
 ﻿using Biz.Extension.NullCheckerExtension;
 using Repository;
 using System;
-using System.Linq;
 using System.Transactions;
 
 namespace Biz.Manager.PersonManager
 {
 	public class PersonUpdater : IDisposable
 	{
-		private readonly SimpleCrudEntities db = new SimpleCrudEntities();
+		private readonly SimpleCrudEntities db;
 		
 		public PersonUpdater(SimpleCrudEntities db)
 		{
@@ -19,10 +18,9 @@ namespace Biz.Manager.PersonManager
 		{
 			using (var transac = new TransactionScope())
 			{
-				var exist = db.People.FirstOrDefault(x => x.Id == data.Id);
+				var exist = db.People.Find(data.Id);
 
-				if (exist.IsNull())
-					throw new Exception("data not found");
+				if (exist.IsNull()) throw new Exception("data not found");
 
 				exist.DateOfBirth = data.DateOfBirth;
 				exist.Name = data.Name;

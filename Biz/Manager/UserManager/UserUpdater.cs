@@ -1,13 +1,14 @@
-﻿using Repository;
+﻿using Biz.Extension.NullCheckerExtension;
+using Biz.Extension.StringExtension;
+using Repository;
 using System;
-using System.Linq;
 using System.Transactions;
 
 namespace Biz.Manager.UserManager
 {
 	public class UserUpdater : IDisposable
 	{
-		private readonly SimpleCrudEntities db = new SimpleCrudEntities();
+		private readonly SimpleCrudEntities db;
 
 		public UserUpdater(SimpleCrudEntities db)
 		{
@@ -18,13 +19,13 @@ namespace Biz.Manager.UserManager
 		{
 			using (var transac = new TransactionScope())
 			{
-				var exist = db.Users.FirstOrDefault(x => x.Id == data.Id);
+				var exist = db.Users.Find(data.Id);
 
-				if (exist == null)
+				if (exist.IsNull())
 					throw new Exception("data not found");
 
 				exist.Username = data.Username;
-				exist.Password = data.Password;
+				exist.Password = data.Password.Encrypt();
 
 				db.SaveChanges();
 
@@ -36,7 +37,7 @@ namespace Biz.Manager.UserManager
 
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			db.Dispose();
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using Biz.Extension.NullCheckerExtension;
+using Biz.Model;
 using Repository;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,11 @@ using System.Linq;
 
 namespace Biz.Manager.PersonManager
 {
+	public class PersonFilter : TableFilter
+	{
+		public long Id { get; set; }
+	}
+
 	public class PersonQuery : IDisposable
 	{
 		private readonly SimpleCrudEntities db;
@@ -17,33 +23,48 @@ namespace Biz.Manager.PersonManager
 
 		public IQueryable<PersonDTO> GetQuery()
 		{
-			return (from val in db.People
-					select new PersonDTO()
-					{
-						Id = val.Id,
-						Name = val.Name,
-						DateOfBirth = val.DateOfBirth
-					});
+			return db.People.Select(val => new PersonDTO()
+			{
+				Id = val.Id,
+				Name = val.Name,
+				DateOfBirth = val.DateOfBirth
+			});
 		}
 
-		public List<PersonDTO> GetAll()
+		public Pagination<PersonDTO> Get(PersonFilter filter)
 		{
-			return GetQuery().ToList();
-		}
+			var query = GetQuery();
+			var total = query.Count();
+			var filterred = total;
 
-		public PersonDTO GetById(long id)
-		{
-			var query = GetQuery().FirstOrDefault(x => x.Id == id);
+			if (filter.Id > 0)
+			{
+				query = query.Where(x => x.Id == filter.Id);
+				filterred = query.Count();
 
-			if (query.IsNull())
-				throw new Exception("data not found");
+				if (filterred == 0) throw new Exception("data not found");
+			}
 
-			return query;
-		}
+			if (!string.IsNullOrWhiteSpace(filter.Keyword))
+			{
+				query = query.Where(x => x.Name.Contains(filter.Keyword));
+				filterred = query.Count();
+			}
 
-		public List<PersonDTO> GetByKeyword(string keyword)
-		{
-			return GetQuery().Where(x => x.Name.Contains(keyword)).ToList();
+			query = 
+				query
+					.OrderBy(x => x.Id)
+					.Skip(filter.Skip)
+					.Take(filter.PageSize);
+
+			return new Pagination<PersonDTO>()
+			{
+				ActivePage = filter.ActivePage,
+				PageSize = filter.PageSize,
+				RecordsTotal = total,
+				RecordsFiltered = filterred,
+				Data = query.ToList()
+			};
 		}
 
 		public void Dispose()

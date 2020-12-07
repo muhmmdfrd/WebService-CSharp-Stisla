@@ -1,14 +1,13 @@
 ﻿using Biz.Extension.NullCheckerExtension;
 using Repository;
 using System;
-using System.Linq;
 using System.Transactions;
 
 namespace Biz.Manager.PersonManager
 {
 	public class PersonDeleter : IDisposable
 	{
-		private readonly SimpleCrudEntities db = new SimpleCrudEntities();
+		private readonly SimpleCrudEntities db;
 
 		public PersonDeleter(SimpleCrudEntities db)
 		{
@@ -19,10 +18,9 @@ namespace Biz.Manager.PersonManager
 		{
 			using (var transac = new TransactionScope())
 			{
-				var exist = db.People.FirstOrDefault(x => x.Id == id);
+				var exist = db.People.Find(id);
 
-				if (exist.IsNull())
-					throw new Exception("data not found");
+				if (exist.IsNull()) throw new Exception("data not found");
 
 				db.People.Remove(exist);
 				db.SaveChanges();

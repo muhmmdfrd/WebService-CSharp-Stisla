@@ -22,22 +22,9 @@ namespace Biz.Services
 			{
 				using (var query = new BookQuery(db))
 				{
-					return ServiceResponse.Success("data found", query.GetBook(Json.ToObject<BookFilter>()));
-				}
-			}
-			catch (Exception ex)
-			{
-				return ServiceResponse.Fail(ex.Message);
-			}
-		}
+					var data = Json.ToObject<BookFilter>();
 
-		public object GetBookById()
-		{
-			try
-			{
-				using (var query = new BookQuery(db))
-				{
-					return ServiceResponse.Success("data found", query.GetById(Json["id"].ToLong()));
+					return ServiceResponse.Success(query.Get(data));
 				}
 			}
 			catch (Exception ex)
@@ -53,6 +40,7 @@ namespace Biz.Services
 				using (var creator = new BookCreator(db))
 				{
 					var result = creator.Save(Json.ToObject<Book>());
+
 					return ServiceResponse.Success(result);
 				}
 			}
@@ -69,6 +57,7 @@ namespace Biz.Services
 				using (var updater = new BookUpdater(db))
 				{
 					var result = updater.Update(Json.ToObject<Book>());
+
 					return ServiceResponse.Success(result);
 				}
 			}
@@ -85,6 +74,7 @@ namespace Biz.Services
 				using (var deleter = new BookDeleter(db))
 				{
 					deleter.Delete(Json["Id"].ToLong());
+
 					return ServiceResponse.Success("data deleted");
 				}
 			}

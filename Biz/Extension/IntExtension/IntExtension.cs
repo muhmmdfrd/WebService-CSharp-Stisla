@@ -13,5 +13,10 @@ namespace Biz.Extension.IntExtension
 		{
 			return Convert.ToInt64(value);
 		}
+
+		public static long ToInt(this object value)
+		{
+			return Convert.ToInt32(value);
+		}
 	}
 }
