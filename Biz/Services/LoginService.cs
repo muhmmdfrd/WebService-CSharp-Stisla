@@ -20,8 +20,8 @@ namespace Biz.Services
 			{
 				using (var query = new UserQuery(db))
 				{
-					var message = query.Login(Json.ToObject<User>()) ? "login success" : throw new Exception("login failed");
-					return ServiceResponse.Success(message, Guid.NewGuid().ToString());
+					var result = query.Login(Json.ToObject<User>());
+					return ServiceResponse.Success("login successfull", result);
 				}
 
 			}

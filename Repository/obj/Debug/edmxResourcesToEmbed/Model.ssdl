@@ -10,6 +10,18 @@
     <Property Name="Path" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Qty" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="Borrowing">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DateOfBorrowing" Type="datetime" Nullable="false" />
+    <Property Name="UserId" Type="bigint" Nullable="false" />
+    <Property Name="BookId" Type="bigint" Nullable="false" />
+    <Property Name="Deadline" Type="datetime" Nullable="false" />
+    <Property Name="IsPenalty" Type="bit" Nullable="false" />
+    <Property Name="TotalPenalty" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Person">
     <Key>
       <PropertyRef Name="Id" />
@@ -25,10 +37,28 @@
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Username" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="PersonId" Type="bigint" />
   </EntityType>
+  <Association Name="FK__User__PersonId__5AEE82B9">
+    <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="PersonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="SimpleCrudModelStoreContainer">
     <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Borrowing" EntityType="Self.Borrowing" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__User__PersonId__5AEE82B9" Association="Self.FK__User__PersonId__5AEE82B9">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
   </EntityContainer>
 </Schema>

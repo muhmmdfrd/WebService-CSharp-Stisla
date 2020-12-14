@@ -1,5 +1,7 @@
 ﻿using Biz.Services;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Web.Script.Services;
 using System.Web.Services;
@@ -10,7 +12,15 @@ namespace WebServiceFirst
 	[ScriptService]
 	public partial class MathService : WebService
 	{
-        public JObject Json { get; set; }
+		public MathService()
+		{
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+		}
+
+		public JObject Json { get; set; }
         public string Token { get; set; }
 
         [WebMethod]

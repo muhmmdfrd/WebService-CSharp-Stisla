@@ -73,7 +73,8 @@ namespace Biz.Services
 			{
 				using (var deleter = new BookDeleter(db))
 				{
-					deleter.Delete(Json["Id"].ToLong());
+					var id = Json["id"].ToLong();
+					deleter.Delete(id);
 
 					return ServiceResponse.Success("data deleted");
 				}

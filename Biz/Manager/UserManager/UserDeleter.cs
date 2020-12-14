@@ -1,4 +1,5 @@
-﻿using Repository;
+﻿using Biz.Extension.NullCheckerExtension;
+using Repository;
 using System;
 using System.Transactions;
 
@@ -17,11 +18,13 @@ namespace Biz.Manager.UserManager
 		{
 			using (var transac = new TransactionScope())
 			{
-				var exist = db.Users.Find(id);
+				var existUser = db.Users.Find(id);
+				var existPerson = db.People.Find(existUser.PersonId);
 
-				if (exist == null) throw new Exception("data not found");
+				if (existUser.IsNull() || existPerson.IsNull()) throw new Exception("data not found");
 
-				db.Users.Remove(exist);
+				db.Users.Remove(existUser);
+				db.People.Remove(existPerson);
 				db.SaveChanges();
 
 				transac.Complete();

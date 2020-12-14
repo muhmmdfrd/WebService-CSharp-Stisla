@@ -2,29 +2,7 @@
 {
 	public partial class ServiceEntry
 	{
-		#region Person Service
-		public object PersonGetAll()
-		{
-			return new PersonService(Json).GetPerson();
-		}
-
-		public object PersonCreate()
-		{
-			return new PersonService(Json).CreatePerson();
-		}
-
-		public object PersonUpdate()
-		{
-			return new PersonService(Json).UpdatePerson();
-		}
-
-		public object PersonDelete()
-		{
-			return new PersonService(Json).DeletePerson();
-		}
-		#endregion
-
-		#region User Service
+		#region User
 		public object UserGetAll()
 		{
 			return new UserService(Json).GetUser();

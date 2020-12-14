@@ -1,4 +1,5 @@
-﻿using Biz.Extension.StringExtension;
+﻿using Biz.Extension.NullCheckerExtension;
+using Biz.Extension.StringExtension;
 using Biz.Model;
 using Repository;
 using System;
@@ -22,12 +23,16 @@ namespace Biz.Manager.UserManager
 
 		public IQueryable<UserDTO> GetQuery()
 		{
-			return db.Users.Select(x => new UserDTO() 
-			{
-				Id = x.Id,
-				Username = x.Username,
-				Password = x.Password
-			});
+			return db.Users
+				.Join(db.People, user => user.PersonId, person => person.Id, (user, person) => new { User = user, Person = person })
+				.Select(x => new UserDTO()
+				{
+					Id = x.User.Id,
+					Username = x.User.Username,
+					PersonId = x.Person.Id,
+					Name = x.Person.Name,
+					DateOfBirth = x.Person.DateOfBirth
+				});
 		}
 
 		public Pagination<UserDTO> Get(UserFilter filter)
@@ -65,12 +70,24 @@ namespace Biz.Manager.UserManager
 			};
 		}
 
-		public bool Login(User data)
+		public LoginInfo Login(User data)
 		{
-			return GetQuery()
-				.Where(x => x.Username.Equals(data.Username) && 
-					x.Password.Equals(data.Password.Encrypt()))
-				.FirstOrDefault() != null;
+			var encrypted = data.Password.Encrypt();
+			var resultData = GetQuery().FirstOrDefault(x => x.Username.Equals(data.Username) && x.Password.Equals(encrypted));
+
+			if (resultData.IsNull()) throw new Exception("Username or Password are incorrect !");
+
+			return new LoginInfo()
+			{
+				Username = resultData.Username,
+				Token = Guid.NewGuid().ToString()
+			};
+		}
+
+		public class LoginInfo
+		{
+			public string Username { get; set; }
+			public string Token { get; set; }
 		}
 
 		public void Dispose()

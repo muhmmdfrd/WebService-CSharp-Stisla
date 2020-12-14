@@ -12,13 +12,14 @@ namespace Repository
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class Borrowing
     {
         public long Id { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public Nullable<long> PersonId { get; set; }
-    
-        public virtual Person Person { get; set; }
+        public System.DateTime DateOfBorrowing { get; set; }
+        public long UserId { get; set; }
+        public long BookId { get; set; }
+        public System.DateTime Deadline { get; set; }
+        public bool IsPenalty { get; set; }
+        public int TotalPenalty { get; set; }
     }
 }

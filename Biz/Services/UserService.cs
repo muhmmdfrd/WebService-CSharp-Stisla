@@ -11,7 +11,7 @@ namespace Biz.Services
 	{
 		private readonly SimpleCrudEntities db = new SimpleCrudEntities();
 
-		public UserService(JObject json) : base(json, "User")
+		public UserService(JObject json) : base(json, "User") 
 		{
 			// constructor
 		}
@@ -23,8 +23,9 @@ namespace Biz.Services
 				using (var query = new UserQuery(db))
 				{
 					var data = Json.ToObject<UserFilter>();
+					var result = query.Get(data);
 
-					return ServiceResponse.Success(query.Get(data));
+					return ServiceResponse.Success(result);
 				}
 			}
 			catch (Exception ex)
@@ -40,7 +41,10 @@ namespace Biz.Services
 			{
 				using (var creator = new UserCreator(db))
 				{
-					var result = creator.Save(Json.ToObject<User>());
+					var person = Json.ToObject<Person>();
+					var user = Json.ToObject<User>();
+
+					var result = creator.Save(person, user);
 
 					return ServiceResponse.Success(result);
 				}
@@ -57,7 +61,10 @@ namespace Biz.Services
 			{
 				using (var update = new UserUpdater(db))
 				{
-					var result = update.Update(Json.ToObject<User>());
+					var user = Json.ToObject<User>();
+					var person = Json.ToObject<Person>();
+
+					var result = update.Update(person, user);
 					
 					return ServiceResponse.Success(result);
 					
@@ -75,7 +82,7 @@ namespace Biz.Services
 			{
 				using (var deleter = new UserDeleter(db))
 				{
-					deleter.Delete(Json["Id"].ToLong());
+					deleter.Delete(Json["id"].ToLong());
 
 					return ServiceResponse.Success("data deleted");
 				}

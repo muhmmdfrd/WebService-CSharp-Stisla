@@ -14,16 +14,19 @@ namespace Biz.Manager.UserManager
 			this.db = db;
 		}
 
-		public User Save(User data)
+		public User Save(Person person, User user)
 		{
 			using (var transac = new TransactionScope())
 			{
-				if (string.IsNullOrEmpty(data.Password))
-					data.Password = Guid.NewGuid().ToString();
+				db.People.Add(person);
+				db.SaveChanges();
 
-				data.Password = data.Password.Encrypt();
+				if (string.IsNullOrEmpty(user.Password)) user.Password = Guid.NewGuid().ToString();
 
-				var result = db.Users.Add(data);
+				user.PersonId = person.Id;
+				user.Password = user.Password.Encrypt();
+
+				var result = db.Users.Add(user);
 				db.SaveChanges();
 
 				transac.Complete();

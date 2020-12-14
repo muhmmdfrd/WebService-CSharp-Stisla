@@ -15,23 +15,26 @@ namespace Biz.Manager.UserManager
 			this.db = db;
 		}
 
-		public User Update(User data)
+		public User Update(Person person, User user)
 		{
 			using (var transac = new TransactionScope())
 			{
-				var exist = db.Users.Find(data.Id);
+				var existUser = db.Users.Find(user.Id);
+				var existPerson = db.People.Find(existUser.PersonId);
 
-				if (exist.IsNull())
+				if (existUser.IsNull() || existPerson.IsNull())
 					throw new Exception("data not found");
 
-				exist.Username = data.Username;
-				exist.Password = data.Password.Encrypt();
+				existUser.Username = user.Username;
+				existUser.Password = user.Password.Encrypt();
+				existPerson.DateOfBirth = person.DateOfBirth;
+				existPerson.Name = person.Name;
 
 				db.SaveChanges();
 
 				transac.Complete();
 
-				return exist;
+				return existUser;
 			}
 		}
 
