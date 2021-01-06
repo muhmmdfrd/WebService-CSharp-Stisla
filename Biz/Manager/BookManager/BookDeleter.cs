@@ -1,4 +1,5 @@
 ﻿using Biz.Extension.NullCheckerExtension;
+using Biz.Model;
 using Repository;
 using System;
 using System.Transactions;
@@ -20,7 +21,7 @@ namespace Biz.Manager.BookManager
 			{
 				var exist = db.Books.Find(id);
 
-				if (exist.IsNull()) throw new Exception("data not found");
+				if (exist.IsNull()) throw new Exception(MessageResponse.NotFound("Book"));
 
 				db.Books.Remove(exist);
 				db.SaveChanges();

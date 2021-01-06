@@ -21,6 +21,28 @@
     <Property Name="Deadline" Type="datetime" Nullable="false" />
     <Property Name="IsPenalty" Type="bit" Nullable="false" />
     <Property Name="TotalPenalty" Type="int" Nullable="false" />
+    <Property Name="Qty" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GroupMenu">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Sequence" Type="int" Nullable="false" />
+    <Property Name="IsCollapse" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Menu">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Path" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Icon" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Sequence" Type="int" Nullable="false" />
+    <Property Name="GroupMenuId" Type="bigint" Nullable="false" />
+    <Property Name="Module" Type="varchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="Person">
     <Key>
@@ -30,6 +52,14 @@
     <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
     <Property Name="DateOfBirth" Type="datetime" />
   </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Access" Type="varchar(max)" />
+  </EntityType>
   <EntityType Name="User">
     <Key>
       <PropertyRef Name="Id" />
@@ -38,7 +68,39 @@
     <Property Name="Username" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="PersonId" Type="bigint" />
+    <Property Name="RoleId" Type="bigint" Nullable="false" />
   </EntityType>
+  <EntityType Name="UserSession">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="bigint" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Token" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastActivity" Type="datetime" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SimpleCrud.dbo.vDashboard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vDashboard">
+    <Key>
+      <PropertyRef Name="key" />
+    </Key>
+    <Property Name="key" Type="varchar" MaxLength="14" Nullable="false" />
+    <Property Name="value" Type="int" />
+  </EntityType>
+  <Association Name="FK__Menu__GroupMenuI__1BC821DD">
+    <End Role="GroupMenu" Type="Self.GroupMenu" Multiplicity="1" />
+    <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GroupMenu">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Menu">
+        <PropertyRef Name="GroupMenuId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__User__PersonId__5AEE82B9">
     <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
     <End Role="User" Type="Self.User" Multiplicity="*" />
@@ -51,13 +113,43 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__User__RoleId__2739D489">
+    <End Role="Role" Type="Self.Role" Multiplicity="1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="SimpleCrudModelStoreContainer">
     <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Borrowing" EntityType="Self.Borrowing" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GroupMenu" EntityType="Self.GroupMenu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserSession" EntityType="Self.UserSession" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="vDashboard" EntityType="Self.vDashboard" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vDashboard].[key] AS [key], 
+    [vDashboard].[value] AS [value]
+    FROM [dbo].[vDashboard] AS [vDashboard]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK__Menu__GroupMenuI__1BC821DD" Association="Self.FK__Menu__GroupMenuI__1BC821DD">
+      <End Role="GroupMenu" EntitySet="GroupMenu" />
+      <End Role="Menu" EntitySet="Menu" />
+    </AssociationSet>
     <AssociationSet Name="FK__User__PersonId__5AEE82B9" Association="Self.FK__User__PersonId__5AEE82B9">
       <End Role="Person" EntitySet="Person" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+    <AssociationSet Name="FK__User__RoleId__2739D489" Association="Self.FK__User__RoleId__2739D489">
+      <End Role="Role" EntitySet="Role" />
       <End Role="User" EntitySet="User" />
     </AssociationSet>
   </EntityContainer>

@@ -19,22 +19,23 @@ namespace Biz.Services
 
         public Status<object> Execute(JObject param)
         {
-            Json = param;
-            if (param["token"].IsNull())
-                throw new Exception("Empty token is not allowed.");
-
-            Token = Convert.ToString(param["token"]);
-
-            if (param["method"].IsNull())
-                throw new Exception("Specify method name.");
-
-            Method = (param["method"]).ToString();
-
-            Status<object> retval = new Status<object>();
-            dynamic response = GetType().GetMethod(Method).Invoke(this, null);
+            var retval = new Status<object>();
 
             try
             {
+                Json = param;
+                if (param["token"].IsNull())
+                    throw new Exception("Empty token is not allowed.");
+
+                Token = param["token"].ToString();
+
+                if (param["method"].IsNull())
+                    throw new Exception("Specify method name.");
+
+                Method = param["method"].ToString();
+
+                dynamic response = GetType().GetMethod(Method).Invoke(this, null);
+
                 retval.Success = response.success;
                 retval.Message = response.message;
                 retval.Values = response.values;
@@ -42,7 +43,7 @@ namespace Biz.Services
             catch (Exception ex)
             {
                 retval.Success = false;
-                retval.Message = ex.Message;
+                retval.Message = ex.InnerException?.Message ?? ex.Message;
                 retval.Values = null;
             }
 

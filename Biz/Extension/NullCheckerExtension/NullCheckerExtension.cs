@@ -6,5 +6,10 @@
 		{
 			return i == null;
 		}
+
+		public static bool IsNotNull(this object i)
+		{
+			return i != null;
+		}
 	}
 }

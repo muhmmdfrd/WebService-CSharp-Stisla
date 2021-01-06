@@ -21,5 +21,6 @@ namespace Repository
         public System.DateTime Deadline { get; set; }
         public bool IsPenalty { get; set; }
         public int TotalPenalty { get; set; }
+        public int Qty { get; set; }
     }
 }

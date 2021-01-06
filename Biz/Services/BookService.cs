@@ -18,13 +18,17 @@ namespace Biz.Services
 
 		public object GetBook()
 		{
+			if (!CurrentPermission.IsCanRead)
+				throw new Exception(MessageResponse.Unauthorize("read"));
+
 			try
 			{
 				using (var query = new BookQuery(db))
 				{
 					var data = Json.ToObject<BookFilter>();
+					var result = query.Get(data);
 
-					return ServiceResponse.Success(query.Get(data));
+					return ServiceResponse.Success(MessageResponse.Success(), result);
 				}
 			}
 			catch (Exception ex)
@@ -35,13 +39,16 @@ namespace Biz.Services
 
 		public object CreateBook()
 		{
+			if (!CurrentPermission.IsCanCreate)
+				throw new Exception(MessageResponse.Unauthorize("write"));
+
 			try
 			{
 				using (var creator = new BookCreator(db))
 				{
-					var result = creator.Save(Json.ToObject<Book>());
+					creator.Save(Json.ToObject<Book>());
 
-					return ServiceResponse.Success(result);
+					return ServiceResponse.Success(MessageResponse.Created(), null);
 				}
 			}
 			catch (Exception ex)
@@ -52,13 +59,16 @@ namespace Biz.Services
 
 		public object UpdateBook()
 		{
+			if (!CurrentPermission.IsCanUpdate)
+				throw new Exception(MessageResponse.Unauthorize("update"));
+
 			try
 			{
 				using (var updater = new BookUpdater(db))
 				{
-					var result = updater.Update(Json.ToObject<Book>());
+					updater.Update(Json.ToObject<Book>());
 
-					return ServiceResponse.Success(result);
+					return ServiceResponse.Success(MessageResponse.Updated(), null);
 				}
 			}
 			catch (Exception ex)
@@ -69,6 +79,9 @@ namespace Biz.Services
 
 		public object DeleteBook()
 		{
+			if (!CurrentPermission.IsCanDelete)
+				throw new Exception(MessageResponse.Unauthorize("delete"));
+
 			try
 			{
 				using (var deleter = new BookDeleter(db))
@@ -76,7 +89,7 @@ namespace Biz.Services
 					var id = Json["id"].ToLong();
 					deleter.Delete(id);
 
-					return ServiceResponse.Success("data deleted");
+					return ServiceResponse.Success(MessageResponse.Deleted(), null);
 				}
 			}
 			catch (Exception ex)

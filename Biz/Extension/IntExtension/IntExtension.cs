@@ -18,5 +18,15 @@ namespace Biz.Extension.IntExtension
 		{
 			return Convert.ToInt32(value);
 		}
+
+		public static bool IsZero(this int num)
+		{
+			return num == 0;
+		}
+
+		public static bool IsZero(this long num)
+		{
+			return num == 0;
+		}
 	}
 }

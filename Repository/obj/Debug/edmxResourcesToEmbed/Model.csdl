@@ -4,9 +4,22 @@
     <EntitySet Name="People" EntityType="SimpleCrudModel.Person" />
     <EntitySet Name="Books" EntityType="SimpleCrudModel.Book" />
     <EntitySet Name="Borrowings" EntityType="SimpleCrudModel.Borrowing" />
+    <EntitySet Name="UserSessions" EntityType="SimpleCrudModel.UserSession" />
+    <EntitySet Name="vDashboards" EntityType="SimpleCrudModel.vDashboard" />
     <EntitySet Name="Users" EntityType="SimpleCrudModel.User" />
     <AssociationSet Name="FK__User__PersonId__5AEE82B9" Association="SimpleCrudModel.FK__User__PersonId__5AEE82B9">
       <End Role="Person" EntitySet="People" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <EntitySet Name="Menus" EntityType="SimpleCrudModel.Menu" />
+    <EntitySet Name="GroupMenus" EntityType="SimpleCrudModel.GroupMenu" />
+    <AssociationSet Name="FK__Menu__GroupMenuI__1BC821DD" Association="SimpleCrudModel.FK__Menu__GroupMenuI__1BC821DD">
+      <End Role="GroupMenu" EntitySet="GroupMenus" />
+      <End Role="Menu" EntitySet="Menus" />
+    </AssociationSet>
+    <EntitySet Name="Roles" EntityType="SimpleCrudModel.Role" />
+    <AssociationSet Name="FK__User__RoleId__2739D489" Association="SimpleCrudModel.FK__User__RoleId__2739D489">
+      <End Role="Role" EntitySet="Roles" />
       <End Role="User" EntitySet="Users" />
     </AssociationSet>
   </EntityContainer>
@@ -40,6 +53,24 @@
     <Property Name="Deadline" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="IsPenalty" Type="Boolean" Nullable="false" />
     <Property Name="TotalPenalty" Type="Int32" Nullable="false" />
+    <Property Name="Qty" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserSession">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int64" Nullable="false" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Token" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LastActivity" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="vDashboard">
+    <Key>
+      <PropertyRef Name="key" />
+    </Key>
+    <Property Name="key" Type="String" Nullable="false" MaxLength="14" FixedLength="false" Unicode="false" />
+    <Property Name="value" Type="Int32" />
   </EntityType>
   <EntityType Name="User">
     <Key>
@@ -49,7 +80,9 @@
     <Property Name="Username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="PersonId" Type="Int64" />
+    <Property Name="RoleId" Type="Int64" Nullable="false" />
     <NavigationProperty Name="Person" Relationship="SimpleCrudModel.FK__User__PersonId__5AEE82B9" FromRole="User" ToRole="Person" />
+    <NavigationProperty Name="Role" Relationship="SimpleCrudModel.FK__User__RoleId__2739D489" FromRole="User" ToRole="Role" />
   </EntityType>
   <Association Name="FK__User__PersonId__5AEE82B9">
     <End Type="SimpleCrudModel.Person" Role="Person" Multiplicity="0..1" />
@@ -60,6 +93,62 @@
       </Principal>
       <Dependent Role="User">
         <PropertyRef Name="PersonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Menu">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Path" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Icon" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Sequence" Type="Int32" Nullable="false" />
+    <Property Name="GroupMenuId" Type="Int64" Nullable="false" />
+    <Property Name="Module" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="GroupMenu" Relationship="SimpleCrudModel.FK__Menu__GroupMenuI__1BC821DD" FromRole="Menu" ToRole="GroupMenu" />
+  </EntityType>
+  <EntityType Name="GroupMenu">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Sequence" Type="Int32" Nullable="false" />
+    <Property Name="IsCollapse" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Menus" Relationship="SimpleCrudModel.FK__Menu__GroupMenuI__1BC821DD" FromRole="GroupMenu" ToRole="Menu" />
+  </EntityType>
+  <Association Name="FK__Menu__GroupMenuI__1BC821DD">
+    <End Type="SimpleCrudModel.GroupMenu" Role="GroupMenu" Multiplicity="1" />
+    <End Type="SimpleCrudModel.Menu" Role="Menu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GroupMenu">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Menu">
+        <PropertyRef Name="GroupMenuId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Access" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Users" Relationship="SimpleCrudModel.FK__User__RoleId__2739D489" FromRole="Role" ToRole="User" />
+  </EntityType>
+  <Association Name="FK__User__RoleId__2739D489">
+    <End Type="SimpleCrudModel.Role" Role="Role" Multiplicity="1" />
+    <End Type="SimpleCrudModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="RoleId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

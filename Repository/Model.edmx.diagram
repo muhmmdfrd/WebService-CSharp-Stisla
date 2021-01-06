@@ -8,8 +8,15 @@
         <EntityTypeShape EntityType="SimpleCrudModel.Person" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SimpleCrudModel.Book" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="SimpleCrudModel.Borrowing" Width="1.5" PointX="3.375" PointY="0.75" />
-        <EntityTypeShape EntityType="SimpleCrudModel.User" Width="1.5" PointX="3" PointY="4.375" />
+        <EntityTypeShape EntityType="SimpleCrudModel.UserSession" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SimpleCrudModel.vDashboard" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="SimpleCrudModel.User" Width="1.5" PointX="3" PointY="4.875" />
         <AssociationConnector Association="SimpleCrudModel.FK__User__PersonId__5AEE82B9" />
+        <EntityTypeShape EntityType="SimpleCrudModel.Menu" Width="1.5" PointX="8" PointY="6.875" />
+        <EntityTypeShape EntityType="SimpleCrudModel.GroupMenu" Width="1.5" PointX="5.75" PointY="7.125" />
+        <AssociationConnector Association="SimpleCrudModel.FK__Menu__GroupMenuI__1BC821DD" />
+        <EntityTypeShape EntityType="SimpleCrudModel.Role" Width="1.5" PointX="0.75" PointY="8.875" />
+        <AssociationConnector Association="SimpleCrudModel.FK__User__RoleId__2739D489" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

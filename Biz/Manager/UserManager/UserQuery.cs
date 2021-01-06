@@ -4,6 +4,7 @@ using Biz.Model;
 using Repository;
 using System;
 using System.Linq;
+using System.Transactions;
 
 namespace Biz.Manager.UserManager
 {
@@ -23,16 +24,34 @@ namespace Biz.Manager.UserManager
 
 		public IQueryable<UserDTO> GetQuery()
 		{
-			return db.Users
-				.Join(db.People, user => user.PersonId, person => person.Id, (user, person) => new { User = user, Person = person })
-				.Select(x => new UserDTO()
-				{
-					Id = x.User.Id,
-					Username = x.User.Username,
-					PersonId = x.Person.Id,
-					Name = x.Person.Name,
-					DateOfBirth = x.Person.DateOfBirth
-				});
+			return (from user in db.Users
+					join person in db.People
+						on user.PersonId equals person.Id
+					join role in db.Roles
+						on user.RoleId equals role.Id
+					orderby role.Name, person.Name
+					select new UserDTO()
+					{
+						Id = user.Id,
+						Username = user.Username,
+						Password = null,
+						PersonId = person.Id,
+						Name = person.Name,
+						DateOfBirth = person.DateOfBirth,
+						RoleId = role.Id,
+						RoleName = role.Name
+					});
+		}
+
+		private IQueryable<UserDTO> GetQueryLogin()
+		{
+			return db.Users.Select(x => new UserDTO()
+			{
+				Id = x.Id,
+				Username = x.Username,
+				Password = x.Password,
+				RoleId = x.RoleId
+			});
 		}
 
 		public Pagination<UserDTO> Get(UserFilter filter)
@@ -56,7 +75,6 @@ namespace Biz.Manager.UserManager
 			}
 
 			query = query
-				.OrderBy(x => x.Id)
 				.Skip(filter.Skip)
 				.Take(filter.PageSize);
 
@@ -73,21 +91,39 @@ namespace Biz.Manager.UserManager
 		public LoginInfo Login(User data)
 		{
 			var encrypted = data.Password.Encrypt();
-			var resultData = GetQuery().FirstOrDefault(x => x.Username.Equals(data.Username) && x.Password.Equals(encrypted));
+			var resultData = GetQueryLogin().FirstOrDefault(x => x.Username.Equals(data.Username) && x.Password.Equals(encrypted));
 
 			if (resultData.IsNull()) throw new Exception("Username or Password are incorrect !");
 
 			return new LoginInfo()
 			{
 				Username = resultData.Username,
-				Token = Guid.NewGuid().ToString()
+				Token = Guid.NewGuid().ToString(),
+				RoleId = resultData.RoleId
 			};
+		}
+
+		public void Logout(string token)
+		{
+			using (var transac = new TransactionScope())
+			{
+				var exist = db.UserSessions.FirstOrDefault(x => x.Token.Equals(token));
+
+				if (exist.IsNull())
+					throw new Exception("data not found");
+
+				db.UserSessions.Remove(exist);
+				db.SaveChanges();
+
+				transac.Complete();
+			}
 		}
 
 		public class LoginInfo
 		{
 			public string Username { get; set; }
 			public string Token { get; set; }
+			public long RoleId { get; set; }
 		}
 
 		public void Dispose()

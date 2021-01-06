@@ -48,15 +48,13 @@ namespace Biz.Manager.BookManager
 				dto = dto.Where(x => x.Id == filter.Id);
 				totalFilterred = dto.Count();
 
-				if (totalFilterred == 0) throw new Exception("data not found");
+				if (totalFilterred == 0) throw new Exception(MessageResponse.NotFound("Book"));
 			}
 
 			dto = dto
 				.OrderBy(x => x.Id)
 				.Skip(filter.Skip)
 				.Take(filter.PageSize);
-
-			totalFilterred = dto.Count();
 
 			return new Pagination<BookDTO>()
 			{

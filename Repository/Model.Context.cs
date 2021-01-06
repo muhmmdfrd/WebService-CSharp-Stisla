@@ -28,6 +28,11 @@ namespace Repository
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<Book> Books { get; set; }
         public virtual DbSet<Borrowing> Borrowings { get; set; }
+        public virtual DbSet<UserSession> UserSessions { get; set; }
+        public virtual DbSet<vDashboard> vDashboards { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Menu> Menus { get; set; }
+        public virtual DbSet<GroupMenu> GroupMenus { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
     }
 }

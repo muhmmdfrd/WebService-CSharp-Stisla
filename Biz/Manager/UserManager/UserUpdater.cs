@@ -1,7 +1,7 @@
-﻿using Biz.Extension.NullCheckerExtension;
-using Biz.Extension.StringExtension;
+﻿using Biz.Extension.StringExtension;
 using Repository;
 using System;
+using System.Linq;
 using System.Transactions;
 
 namespace Biz.Manager.UserManager
@@ -15,26 +15,22 @@ namespace Biz.Manager.UserManager
 			this.db = db;
 		}
 
-		public User Update(Person person, User user)
+		public void Update(Person person, User user)
 		{
 			using (var transac = new TransactionScope())
 			{
+				IQueryable<User> query = db.Users.Include("Person");
 				var existUser = db.Users.Find(user.Id);
-				var existPerson = db.People.Find(existUser.PersonId);
-
-				if (existUser.IsNull() || existPerson.IsNull())
-					throw new Exception("data not found");
-
 				existUser.Username = user.Username;
-				existUser.Password = user.Password.Encrypt();
+				existUser.Password = string.IsNullOrEmpty(user.Password) ? existUser.Password : user.Password.Encrypt();
+
+				var existPerson = db.People.Find(existUser.PersonId);
 				existPerson.DateOfBirth = person.DateOfBirth;
 				existPerson.Name = person.Name;
 
 				db.SaveChanges();
 
 				transac.Complete();
-
-				return existUser;
 			}
 		}
 

@@ -1,12 +1,12 @@
 C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Debug\Biz.dll
 C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Debug\Biz.pdb
 C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Debug\Repository.dll
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Debug\Repository.pdb
+C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Debug\Repository.dll.config
 C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\obj\Debug\Biz.csprojAssemblyReference.cache
 C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\obj\Debug\Biz.csproj.CoreCompileInputs.cache
 C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\obj\Debug\Biz.csproj.CopyComplete
 C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\obj\Debug\Biz.dll
 C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\obj\Debug\Biz.pdb
-C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Debug\Repository.dll
-C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Debug\Repository.pdb
-C:\Users\Wizzy Dev1\source\repos\WebServiceFirst\Biz\bin\Debug\Repository.dll.config

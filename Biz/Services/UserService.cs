@@ -18,6 +18,9 @@ namespace Biz.Services
 
 		public object GetUser()
 		{
+			if (!CurrentPermission.IsCanRead)
+				throw new Exception(MessageResponse.Unauthorize("read"));
+
 			try
 			{
 				using (var query = new UserQuery(db))
@@ -25,7 +28,7 @@ namespace Biz.Services
 					var data = Json.ToObject<UserFilter>();
 					var result = query.Get(data);
 
-					return ServiceResponse.Success(result);
+					return ServiceResponse.Success(MessageResponse.Success(), result);
 				}
 			}
 			catch (Exception ex)
@@ -37,6 +40,9 @@ namespace Biz.Services
 
 		public object CreateUser()
 		{
+			if (!CurrentPermission.IsCanRead)
+				throw new Exception(MessageResponse.Unauthorize("write"));
+
 			try
 			{
 				using (var creator = new UserCreator(db))
@@ -44,9 +50,9 @@ namespace Biz.Services
 					var person = Json.ToObject<Person>();
 					var user = Json.ToObject<User>();
 
-					var result = creator.Save(person, user);
+					creator.Save(person, user);
 
-					return ServiceResponse.Success(result);
+					return ServiceResponse.Success(MessageResponse.Created(), null);
 				}
 			}
 			catch (Exception ex)
@@ -57,6 +63,9 @@ namespace Biz.Services
 
 		public object UpdateUser()
 		{
+			if (!CurrentPermission.IsCanUpdate)
+				throw new Exception(MessageResponse.Unauthorize("update"));
+
 			try
 			{
 				using (var update = new UserUpdater(db))
@@ -64,9 +73,9 @@ namespace Biz.Services
 					var user = Json.ToObject<User>();
 					var person = Json.ToObject<Person>();
 
-					var result = update.Update(person, user);
+					update.Update(person, user);
 					
-					return ServiceResponse.Success(result);
+					return ServiceResponse.Success(MessageResponse.Updated(), null);
 					
 				}
 			}
@@ -78,13 +87,17 @@ namespace Biz.Services
 
 		public object DeleteUser()
 		{
+			if (!CurrentPermission.IsCanDelete)
+				throw new Exception(MessageResponse.Unauthorize("delete"));
+
 			try
 			{
 				using (var deleter = new UserDeleter(db))
 				{
-					deleter.Delete(Json["id"].ToLong());
+					var id = Json["id"].ToLong();
+					deleter.Delete(id);
 
-					return ServiceResponse.Success("data deleted");
+					return ServiceResponse.Success(MessageResponse.Deleted(), null);
 				}
 			}
 			catch (Exception ex)

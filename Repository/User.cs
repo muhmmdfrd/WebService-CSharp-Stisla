@@ -18,7 +18,9 @@ namespace Repository
         public string Username { get; set; }
         public string Password { get; set; }
         public Nullable<long> PersonId { get; set; }
+        public long RoleId { get; set; }
     
         public virtual Person Person { get; set; }
+        public virtual Role Role { get; set; }
     }
 }
