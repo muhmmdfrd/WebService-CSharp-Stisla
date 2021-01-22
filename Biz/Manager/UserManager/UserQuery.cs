@@ -11,6 +11,7 @@ namespace Biz.Manager.UserManager
 	public class UserFilter : TableFilter
 	{
 		public long Id { get; set; }
+		public long RoleId { get; set; }
 	}
 
 	public class UserQuery : IDisposable
@@ -24,7 +25,7 @@ namespace Biz.Manager.UserManager
 
 		public IQueryable<UserDTO> GetQuery()
 		{
-			return (from user in db.Users
+			return (from user in db.Users.AsNoTracking()
 					join person in db.People
 						on user.PersonId equals person.Id
 					join role in db.Roles
@@ -68,10 +69,20 @@ namespace Biz.Manager.UserManager
 
 			if (filter.Id > 0)
 			{
-				query = query.Where(x => x.Id == filter.Id);
+				query = query.Where(x => x.Id.Equals(filter.Id));
 				filterred = query.Count();
 
-				if (filterred == 0) throw new Exception("data not found");
+				if (filterred.Equals(0)) 
+					throw new Exception("data not found");
+			}
+
+			if (filter.RoleId > 0)
+			{
+				query = query.Where(x => x.RoleId == filter.RoleId);
+				filterred = query.Count();
+
+				if (filterred.Equals(0))
+					throw new Exception("data not found");
 			}
 
 			query = query
@@ -93,7 +104,8 @@ namespace Biz.Manager.UserManager
 			var encrypted = data.Password.Encrypt();
 			var resultData = GetQueryLogin().FirstOrDefault(x => x.Username.Equals(data.Username) && x.Password.Equals(encrypted));
 
-			if (resultData.IsNull()) throw new Exception("Username or Password are incorrect !");
+			if (resultData.IsNull() || resultData.RoleId.Equals(6)) 
+				throw new Exception("Username or Password are incorrect !");
 
 			return new LoginInfo()
 			{

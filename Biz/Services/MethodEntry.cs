@@ -49,6 +49,11 @@
 			return new BookService(Json).GetBook();
 		}
 
+		public object BookGetList()
+		{
+			return new BookService(Json).GetBookList();
+		}
+
 		public object BookCreate()
 		{
 			return new BookService(Json).CreateBook();
@@ -74,6 +79,11 @@
 		public object BorrowingCreate()
 		{
 			return new BorrowingService(Json).CreateBorrowing();
+		}
+
+		public object ReturningCreate()
+		{
+			return new BorrowingService(Json).CreateReturning();
 		}
 		#endregion
 
@@ -103,6 +113,26 @@
 		public object GroupMenuGetAll()
 		{
 			return new GroupMenuService(Json).GetGroupMenu();
+		}
+
+		public object GroupMenuGetList()
+		{
+			return new GroupMenuService(Json).GetListGroupMenu();
+		}
+
+		public object GroupMenuCreate()
+		{
+			return new GroupMenuService(Json).CreateGroupMenu();
+		}
+
+		public object GroupMenuUpdate()
+		{
+			return new GroupMenuService(Json).UpdateGroupMenu();
+		}
+
+		public object GroupMenuDelete()
+		{
+			return new GroupMenuService(Json).DeleteGroupMenu();
 		}
 		#endregion
 

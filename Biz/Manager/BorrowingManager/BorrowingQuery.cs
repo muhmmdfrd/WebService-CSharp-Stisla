@@ -22,6 +22,7 @@ namespace Biz.Manager.BorrowingManager
 		public IQueryable<BorrowingDTO> GetQuery()
 		{
 			return db.Borrowings
+				.AsNoTracking()
 				.Join(db.Books, borrowing => borrowing.BookId, book => book.Id, (borrowing, book) => new { Book = book, Borrowing = borrowing })
 				.Join(db.Users, borrowing => borrowing.Borrowing.UserId, user => user.Id, (borrowing, user) => new { User = user, Borrowing = borrowing })
 				.Select(x => new BorrowingDTO()
@@ -38,7 +39,8 @@ namespace Biz.Manager.BorrowingManager
 					UserId = x.Borrowing.Borrowing.UserId,
 					Username = x.User.Username,
 					Name = x.User.Person.Name,
-					Qty = x.Borrowing.Borrowing.Qty
+					Qty = x.Borrowing.Borrowing.Qty,
+					Status = x.Borrowing.Borrowing.Status
 				});
 		}
 

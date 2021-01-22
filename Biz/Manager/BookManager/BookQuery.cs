@@ -1,6 +1,7 @@
 ﻿using Biz.Model;
 using Repository;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Biz.Manager.BookManager
@@ -21,14 +22,22 @@ namespace Biz.Manager.BookManager
 
 		public IQueryable<BookDTO> GetQuery()
 		{
-			return db.Books.Select(x => new BookDTO()
-			{
-				Id = x.Id,
-				Title = x.Title,
-				Author = x.Author,
-				Path = x.Path,
-				Qty = x.Qty
-			});
+			return db.Books
+				.AsNoTracking()
+				.Select(x => new BookDTO()
+				{
+					Id = x.Id,
+					Title = x.Title,
+					Author = x.Author,
+					Path = x.Path,
+					Qty = x.Qty,
+					Description = x.Description ?? "-"
+				});
+		}
+
+		public List<BookDTO> GetList()
+		{
+			return GetQuery().ToList();
 		}
 
 		public Pagination<BookDTO> Get(BookFilter filter)
@@ -45,7 +54,7 @@ namespace Biz.Manager.BookManager
 
 			if (filter.Id > 0)
 			{
-				dto = dto.Where(x => x.Id == filter.Id);
+				dto = dto.Where(x => x.Id.Equals(filter.Id));
 				totalFilterred = dto.Count();
 
 				if (totalFilterred == 0) throw new Exception(MessageResponse.NotFound("Book"));

@@ -1,8 +1,12 @@
-﻿using Biz.Services;
+﻿using Biz.Extension.HeaderExtension;
+using Biz.Extension.NullCheckerExtension;
+using Biz.Model;
+using Biz.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
 
@@ -29,6 +33,14 @@ namespace WebServiceFirst
             try
             {
                 Json = JObject.FromObject(data);
+
+    //            if (!Json["method"].ToString().Equals("Login"))
+				//{
+    //                var key = HttpContext.Current.Request.Headers["SSIDS"];
+
+    //                if (key.IsNull() || !key.ValidateKey(Json))
+    //                    return ServiceResponse.SecurityAccessFail();
+    //            }
 
                 object retval = null;
                 using (var entry = new ServiceEntry())

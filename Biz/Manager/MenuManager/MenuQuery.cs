@@ -24,6 +24,7 @@ namespace Biz.Manager.MenuManager
 		public IQueryable<MenuDTO> GetQuery()
 		{
 			return db.Menus
+				.AsNoTracking()
 				.Join(db.GroupMenus, m => m.GroupMenuId, g => g.Id, (m, g) => new { Menu = m, GroupMenu = g })
 				.Select(menu => new MenuDTO()
 				{
@@ -33,7 +34,8 @@ namespace Biz.Manager.MenuManager
 					Name = menu.Menu.Name,
 					Path = menu.Menu.Path,
 					Sequence = menu.Menu.Sequence,
-					GroupMenuName = menu.GroupMenu.Name
+					GroupMenuName = menu.GroupMenu.Name,
+					Module = menu.Menu.Module
 				});
 		}
 

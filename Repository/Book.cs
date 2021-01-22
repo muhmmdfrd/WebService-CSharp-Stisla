@@ -19,5 +19,6 @@ namespace Repository
         public string Author { get; set; }
         public string Path { get; set; }
         public int Qty { get; set; }
+        public string Description { get; set; }
     }
 }

@@ -9,6 +9,21 @@ namespace Biz.Extension.IntExtension
 			return i > value;
 		}
 
+		public static bool IsLowerThan(this int i, int value)
+		{
+			return i < value;
+		}
+
+		public static bool IsGreaterThanEquals(this int i, int value)
+		{
+			return i >= value;
+		}
+
+		public static bool IsLowerThanEquals(this int i, int value)
+		{
+			return i <= value;
+		}
+
 		public static long ToLong(this object value)
 		{
 			return Convert.ToInt64(value);

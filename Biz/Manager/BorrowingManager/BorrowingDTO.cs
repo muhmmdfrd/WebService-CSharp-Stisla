@@ -17,5 +17,6 @@ namespace Biz.Manager.BorrowingManager
         public DateTime Deadline { get; set; }
         public bool IsPenalty { get; set; }
         public int TotalPenalty { get; set; }
+        public int Status { get; set; }
     }
 }

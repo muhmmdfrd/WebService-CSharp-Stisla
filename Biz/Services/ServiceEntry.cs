@@ -17,7 +17,9 @@ namespace Biz.Services
         [JsonProperty("method")]
         private string Method = "";
 
-        public Status<object> Execute(JObject param)
+		public object HttpContext { get; private set; }
+
+		public Status<object> Execute(JObject param)
         {
             var retval = new Status<object>();
 

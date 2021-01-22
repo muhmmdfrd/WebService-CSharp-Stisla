@@ -5,6 +5,7 @@ using Biz.Manager.PermissionManager;
 using Biz.Model;
 using Repository;
 using System;
+using System.Linq;
 using System.Transactions;
 
 namespace Biz.Manager.MenuManager
@@ -26,6 +27,13 @@ namespace Biz.Manager.MenuManager
 
 				if (existParent.IsNull())
 					throw new Exception(MessageResponse.NotFound("GroupMenu"));
+
+				var lastSequence = db.Menus
+					.Where(x => x.GroupMenuId == menu.GroupMenuId)
+					.OrderByDescending(x => x.Sequence).FirstOrDefault()
+					.Sequence;
+
+				menu.Sequence = lastSequence + 1;
 
 				var result = db.Menus.Add(menu);
 				db.SaveChanges();

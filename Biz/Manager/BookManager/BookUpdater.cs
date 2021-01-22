@@ -28,6 +28,7 @@ namespace Biz.Manager.BookManager
 				exist.Path = data.Path;
 				exist.Qty = data.Qty;
 				exist.Title = data.Title;
+				exist.Description = data.Description;
 
 				db.SaveChanges();
 

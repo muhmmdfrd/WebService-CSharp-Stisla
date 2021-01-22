@@ -1,4 +1,7 @@
-﻿using Biz.Extension.NullCheckerExtension;
+﻿using Biz.Enum;
+using Biz.Extension.EnumExtension;
+using Biz.Extension.IntExtension;
+using Biz.Extension.NullCheckerExtension;
 using Biz.Model;
 using Repository;
 using System;
@@ -19,7 +22,16 @@ namespace Biz.Manager.BorrowingManager
 		{
 			using (var transac = new TransactionScope())
 			{
+				var user = db.Users.Find(borrowing.UserId);
+				if (user.IsNull())
+					throw new Exception(MessageResponse.NotFound("User"));
+
 				var book = db.Books.Find(borrowing.BookId);
+				if (book.IsNull())
+					throw new Exception(MessageResponse.NotFound("Book"));
+
+				// add deadline
+				borrowing.Deadline = borrowing.DateOfBorrowing.AddDays(3);
 
 				ValidateQty(book, borrowing);
 
@@ -34,6 +46,42 @@ namespace Biz.Manager.BorrowingManager
 			}
 		}
 
+		public void Return(Borrowing borrowing)
+		{
+			using (var transac = new TransactionScope())
+			{
+				var exist = db.Borrowings.Find(borrowing.Id);
+				var now = DateTime.Now;
+
+				if (exist.IsNull())
+					throw new Exception(MessageResponse.NotFound("Borrowing"));
+
+				var book = db.Books.Find(exist.BookId);
+
+				if (book.IsNull())
+					throw new Exception(MessageResponse.NotFound("Book"));
+
+				if (borrowing.Deadline < now)
+				{
+					exist.IsPenalty = true;
+					exist.Status = LoanStatusEnum.Late.GetValueOfEnum();
+					exist.TotalPenalty = now.Subtract(exist.Deadline).Days * 1000;
+				}
+				else
+				{
+					exist.IsPenalty = false;
+					exist.Status = LoanStatusEnum.OnTime.GetValueOfEnum();
+					exist.TotalPenalty = 0;
+				}
+
+				book.Qty += exist.Qty;
+
+				db.SaveChanges();
+
+				transac.Complete();
+			}
+		}
+
 		private void ValidateQty(Book book, Borrowing borrowing)
 		{
 			var totalBook = book.Qty;
@@ -42,10 +90,10 @@ namespace Biz.Manager.BorrowingManager
 			if (book.IsNull())
 				throw new Exception(MessageResponse.NotFound("Book"));
 
-			if (totalBook < totalBorrowing)
+			if (totalBook.IsLowerThan(totalBorrowing))
 				throw new Exception("Borrowed qty is greater then existing qty");
 
-			if (totalBorrowing <= 0)
+			if (totalBorrowing.IsLowerThanEquals(0))
 				throw new Exception("Please enter a valid qty");
 		}
 

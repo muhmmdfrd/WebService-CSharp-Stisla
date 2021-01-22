@@ -9,6 +9,7 @@
     <Property Name="Author" Type="varchar" MaxLength="30" Nullable="false" />
     <Property Name="Path" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Qty" Type="int" Nullable="false" />
+    <Property Name="Description" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="Borrowing">
     <Key>
@@ -22,6 +23,7 @@
     <Property Name="IsPenalty" Type="bit" Nullable="false" />
     <Property Name="TotalPenalty" Type="int" Nullable="false" />
     <Property Name="Qty" Type="int" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="GroupMenu">
     <Key>
@@ -58,7 +60,7 @@
     </Key>
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="Access" Type="varchar(max)" />
+    <Property Name="Access" Type="varchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="User">
     <Key>

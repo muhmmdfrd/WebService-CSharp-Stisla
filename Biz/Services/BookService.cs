@@ -37,6 +37,26 @@ namespace Biz.Services
 			}
 		}
 
+		public object GetBookList()
+		{
+			if (!CurrentPermission.IsCanRead)
+				throw new Exception(MessageResponse.Unauthorize("read"));
+
+			try
+			{
+				using (var query = new BookQuery(db))
+				{
+					var result = query.GetList();
+
+					return ServiceResponse.Success(MessageResponse.Success(), result);
+				}
+			}
+			catch (Exception ex)
+			{
+				return ServiceResponse.Fail(ex.Message);
+			}
+		}
+
 		public object CreateBook()
 		{
 			if (!CurrentPermission.IsCanCreate)

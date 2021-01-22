@@ -2,8 +2,6 @@
 <Schema Namespace="SimpleCrudModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="SimpleCrudEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="People" EntityType="SimpleCrudModel.Person" />
-    <EntitySet Name="Books" EntityType="SimpleCrudModel.Book" />
-    <EntitySet Name="Borrowings" EntityType="SimpleCrudModel.Borrowing" />
     <EntitySet Name="UserSessions" EntityType="SimpleCrudModel.UserSession" />
     <EntitySet Name="vDashboards" EntityType="SimpleCrudModel.vDashboard" />
     <EntitySet Name="Users" EntityType="SimpleCrudModel.User" />
@@ -22,6 +20,8 @@
       <End Role="Role" EntitySet="Roles" />
       <End Role="User" EntitySet="Users" />
     </AssociationSet>
+    <EntitySet Name="Borrowings" EntityType="SimpleCrudModel.Borrowing" />
+    <EntitySet Name="Books" EntityType="SimpleCrudModel.Book" />
   </EntityContainer>
   <EntityType Name="Person">
     <Key>
@@ -31,29 +31,6 @@
     <Property Name="Name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
     <Property Name="DateOfBirth" Type="DateTime" Precision="3" />
     <NavigationProperty Name="Users" Relationship="SimpleCrudModel.FK__User__PersonId__5AEE82B9" FromRole="Person" ToRole="User" />
-  </EntityType>
-  <EntityType Name="Book">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Title" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-    <Property Name="Author" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-    <Property Name="Path" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Qty" Type="Int32" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Borrowing">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="DateOfBorrowing" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="UserId" Type="Int64" Nullable="false" />
-    <Property Name="BookId" Type="Int64" Nullable="false" />
-    <Property Name="Deadline" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="IsPenalty" Type="Boolean" Nullable="false" />
-    <Property Name="TotalPenalty" Type="Int32" Nullable="false" />
-    <Property Name="Qty" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="UserSession">
     <Key>
@@ -137,7 +114,7 @@
     </Key>
     <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Access" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Access" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="Users" Relationship="SimpleCrudModel.FK__User__RoleId__2739D489" FromRole="Role" ToRole="User" />
   </EntityType>
   <Association Name="FK__User__RoleId__2739D489">
@@ -152,4 +129,29 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="Borrowing">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DateOfBorrowing" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UserId" Type="Int64" Nullable="false" />
+    <Property Name="BookId" Type="Int64" Nullable="false" />
+    <Property Name="Deadline" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsPenalty" Type="Boolean" Nullable="false" />
+    <Property Name="TotalPenalty" Type="Int32" Nullable="false" />
+    <Property Name="Qty" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Author" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Path" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Qty" Type="Int32" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>

@@ -19,9 +19,10 @@ namespace Biz.Manager.UserManager
 		{
 			using (var transac = new TransactionScope())
 			{
-				IQueryable<User> query = db.Users.Include("Person");
+				var query = db.Users.Include("Person").AsQueryable();
 				var existUser = db.Users.Find(user.Id);
 				existUser.Username = user.Username;
+				existUser.RoleId = user.RoleId;
 				existUser.Password = string.IsNullOrEmpty(user.Password) ? existUser.Password : user.Password.Encrypt();
 
 				var existPerson = db.People.Find(existUser.PersonId);

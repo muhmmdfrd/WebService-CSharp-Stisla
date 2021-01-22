@@ -56,5 +56,26 @@ namespace Biz.Services
 				return ServiceResponse.Fail(ex.Message);
 			}
 		}
+
+		public object CreateReturning()
+		{
+			if (!CurrentPermission.IsCanCreate)
+				throw new Exception(MessageResponse.Unauthorize("create"));
+
+			try
+			{
+				using (var creator = new BorrowingCreator(db))
+				{
+					var data = Json.ToObject<Borrowing>();
+					creator.Return(data);
+
+					return ServiceResponse.Success(MessageResponse.Created(), null);
+				}
+			}
+			catch (Exception ex)
+			{
+				return ServiceResponse.Fail(ex.Message);
+			}
+		}
 	}
 }

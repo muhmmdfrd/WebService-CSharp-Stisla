@@ -62,15 +62,22 @@ namespace Biz.Extension.StringExtension
 
 		public static string ConcatJSON(this string old, string param)
 		{
-			int index = old.IndexOf(']');
+			char closeBracket = ']';
+			int index = old.IndexOf(closeBracket);
 			string first = old.Remove(index);
 
-			return first + "," + param + "]";
+			return $"{first},{param}{closeBracket}";
 		}
 			
 		private static string ToBase64(this byte[] array)
 		{
 			return Convert.ToBase64String(array);
+		}
+
+		public static string FromBase64(this string base64)
+		{
+			var data = Convert.FromBase64String(base64);
+			return Encoding.UTF8.GetString(data);
 		}
 
 		public static string RemoveBackslash(this string word)

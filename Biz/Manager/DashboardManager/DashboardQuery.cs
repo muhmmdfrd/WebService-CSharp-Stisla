@@ -16,12 +16,11 @@ namespace Biz.Manager.DashboardManager
 
 		public IQueryable<DashboardDTO> GetQuery()
 		{
-			return (from dashboard in db.vDashboards
-					select new DashboardDTO()
-					{
-						Key = dashboard.key,
-						Value = dashboard.value ?? 0
-					}) ;;
+			return db.vDashboards.AsNoTracking().Select(x => new DashboardDTO()
+			{
+				Key = x.key,
+				Value = x.value
+			});
 		}
 
 		public List<DashboardDTO> Get()

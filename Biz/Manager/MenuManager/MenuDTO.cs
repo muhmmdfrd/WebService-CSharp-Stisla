@@ -11,5 +11,6 @@ namespace Biz.Manager.MenuManager
         public int Sequence { get; set; }
         public long GroupMenuId { get; set; }
         public string GroupMenuName { get; set; }
+        public string Module { get; set; }
     }
 }

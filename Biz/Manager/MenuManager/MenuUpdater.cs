@@ -1,7 +1,12 @@
-﻿using Biz.Extension.NullCheckerExtension;
+﻿using Biz.Extension.JavascriptExtension;
+using Biz.Extension.NullCheckerExtension;
+using Biz.Extension.StringExtension;
+using Biz.Manager.PermissionManager;
 using Biz.Model;
 using Repository;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Transactions;
 
 namespace Biz.Manager.MenuManager
@@ -29,7 +34,6 @@ namespace Biz.Manager.MenuManager
 				exist.Module = menu.Module;
 				exist.Name = menu.Name;
 				exist.Path = menu.Path;
-				exist.Sequence = menu.Sequence;
 
 				db.SaveChanges();
 

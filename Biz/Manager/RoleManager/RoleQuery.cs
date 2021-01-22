@@ -25,6 +25,7 @@ namespace Biz.Manager.RoleManager
 		private List<PermissionDTO> GetAccessByRole(long id)
 		{
 			return db.Roles
+				.AsNoTracking()
 				.Select(x => new { x.Access, x.Id })
 				.FirstOrDefault(x => x.Id == id)
 				.Access

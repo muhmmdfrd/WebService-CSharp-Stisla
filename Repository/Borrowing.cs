@@ -22,5 +22,6 @@ namespace Repository
         public bool IsPenalty { get; set; }
         public int TotalPenalty { get; set; }
         public int Qty { get; set; }
+        public int Status { get; set; }
     }
 }

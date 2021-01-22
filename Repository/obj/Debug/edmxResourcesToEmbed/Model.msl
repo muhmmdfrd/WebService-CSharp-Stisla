@@ -10,31 +10,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Books">
-      <EntityTypeMapping TypeName="SimpleCrudModel.Book">
-        <MappingFragment StoreEntitySet="Book">
-          <ScalarProperty Name="Qty" ColumnName="Qty" />
-          <ScalarProperty Name="Path" ColumnName="Path" />
-          <ScalarProperty Name="Author" ColumnName="Author" />
-          <ScalarProperty Name="Title" ColumnName="Title" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Borrowings">
-      <EntityTypeMapping TypeName="SimpleCrudModel.Borrowing">
-        <MappingFragment StoreEntitySet="Borrowing">
-          <ScalarProperty Name="Qty" ColumnName="Qty" />
-          <ScalarProperty Name="TotalPenalty" ColumnName="TotalPenalty" />
-          <ScalarProperty Name="IsPenalty" ColumnName="IsPenalty" />
-          <ScalarProperty Name="Deadline" ColumnName="Deadline" />
-          <ScalarProperty Name="BookId" ColumnName="BookId" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="DateOfBorrowing" ColumnName="DateOfBorrowing" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="UserSessions">
       <EntityTypeMapping TypeName="SimpleCrudModel.UserSession">
         <MappingFragment StoreEntitySet="UserSession">
@@ -93,6 +68,33 @@
         <MappingFragment StoreEntitySet="Role">
           <ScalarProperty Name="Access" ColumnName="Access" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Borrowings">
+      <EntityTypeMapping TypeName="SimpleCrudModel.Borrowing">
+        <MappingFragment StoreEntitySet="Borrowing">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Qty" ColumnName="Qty" />
+          <ScalarProperty Name="TotalPenalty" ColumnName="TotalPenalty" />
+          <ScalarProperty Name="IsPenalty" ColumnName="IsPenalty" />
+          <ScalarProperty Name="Deadline" ColumnName="Deadline" />
+          <ScalarProperty Name="BookId" ColumnName="BookId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="DateOfBorrowing" ColumnName="DateOfBorrowing" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Books">
+      <EntityTypeMapping TypeName="SimpleCrudModel.Book">
+        <MappingFragment StoreEntitySet="Book">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Qty" ColumnName="Qty" />
+          <ScalarProperty Name="Path" ColumnName="Path" />
+          <ScalarProperty Name="Author" ColumnName="Author" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

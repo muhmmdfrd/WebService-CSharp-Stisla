@@ -30,14 +30,56 @@ namespace Biz.Manager.GroupMenuManager
 
 		public IQueryable<GroupMenuDTO> GetQuery()
 		{
-			return (from groupMenu in db.GroupMenus
-					select new GroupMenuDTO()
-					{
-						Id = groupMenu.Id,
-						Name = groupMenu.Name,
-						Sequence = groupMenu.Sequence,
-						IsCollapse = groupMenu.IsCollapse
-					}).Distinct();
+			return db.GroupMenus
+				.AsNoTracking()
+				.Distinct()
+				.Select(groupMenu => new GroupMenuDTO()
+				{
+					Id = groupMenu.Id,
+					Name = groupMenu.Name,
+					Sequence = groupMenu.Sequence,
+					IsCollapse = groupMenu.IsCollapse
+				});
+		}
+
+		public Pagination<GroupMenuDTO> Get(GroupMenuFilter filter)
+		{
+			var query = GetQuery();
+			var total = query.Count();
+			var filterred = total;
+
+			if (!string.IsNullOrEmpty(filter.Keyword))
+			{
+				query = query.Where(x => x.Name.Contains(filter.Keyword));
+				filterred = query.Count();
+
+				if (filterred.IsZero())
+					throw new Exception(MessageResponse.NotFound("GroupMenu"));
+			}
+
+			if (filter.Id > 0)
+			{
+				query = query.Where(x => x.Id == filter.Id);
+				filterred = query.Count();
+
+				if (filterred.IsZero())
+					throw new Exception(MessageResponse.NotFound("GroupMenu"));
+			}
+
+			query = query
+					.OrderBy(x => x.Id)
+					.Skip(filter.Skip)
+					.Take(filter.PageSize);
+
+			return new Pagination<GroupMenuDTO>()
+			{
+				ActivePage = filter.ActivePage,
+				Data = query.ToList(),
+				Draw = null,
+				PageSize = filter.PageSize,
+				RecordsFiltered = filterred,
+				RecordsTotal = total
+			};
 		}
 
 		public List<GroupMenuDTO> GetList()

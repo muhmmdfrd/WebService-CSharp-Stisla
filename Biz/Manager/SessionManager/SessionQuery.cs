@@ -17,7 +17,7 @@ namespace Biz.Manager.SessionManager
 		{
 			using (var db = new SimpleCrudEntities())
 			{
-				return db.UserSessions.FirstOrDefault(x => x.Token.Equals(token));
+				return db.UserSessions.AsNoTracking().FirstOrDefault(x => x.Token.Equals(token));
 			}
 		}
 

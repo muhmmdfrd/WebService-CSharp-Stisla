@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enum\LoanStatusEnum.cs" />
+    <Compile Include="Extension\EnumExtension\EnumExtension.cs" />
+    <Compile Include="Extension\HeaderExtension\HeadersExtension.cs" />
     <Compile Include="Extension\IntExtension\IntExtension.cs" />
     <Compile Include="Extension\JavascriptExtension\JSExtension.cs" />
     <Compile Include="Extension\NullCheckerExtension\NullCheckerExtension.cs" />
@@ -61,8 +64,11 @@
     <Compile Include="Manager\BorrowingManager\BorrowingQuery.cs" />
     <Compile Include="Manager\DashboardManager\DashboardDTO.cs" />
     <Compile Include="Manager\DashboardManager\DashboardQuery.cs" />
+    <Compile Include="Manager\GroupMenuManager\GroupMenuCreator.cs" />
+    <Compile Include="Manager\GroupMenuManager\GroupMenuDeleter.cs" />
     <Compile Include="Manager\GroupMenuManager\GroupMenuDTO.cs" />
     <Compile Include="Manager\GroupMenuManager\GroupMenuQuery.cs" />
+    <Compile Include="Manager\GroupMenuManager\GroupMenuUpdater.cs" />
     <Compile Include="Manager\MenuManager\MenuCreator.cs" />
     <Compile Include="Manager\MenuManager\MenuDeleter.cs" />
     <Compile Include="Manager\MenuManager\MenuDTO.cs" />
@@ -109,8 +115,6 @@
       <Name>Repository</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Enum\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

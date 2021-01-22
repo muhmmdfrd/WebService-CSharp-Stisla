@@ -36,5 +36,10 @@
 		{
 			return $"You not allowed to {action} this data";
 		}
+
+		public static string Error(string message)
+		{
+			return $"Error due to ${message}";
+		}
 	}
 }
